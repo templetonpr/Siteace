@@ -1,0 +1,27 @@
+/* CSS declarations go here */
+body {
+  background-color: #aaaaaa;
+}
+
+.hidden_div{
+	display:none;
+}
+
+.navbar-text {
+  padding-right: 15px;
+}
+
+.panel {
+    background-color: #cccccc;
+}
+
+.website-item-footer {
+    padding-left: 0px;
+}
+
+.website-item-footer li {
+    display: inline;
+    padding: 5px;
+    list-style-type: none;
+    text-align: center;
+}
