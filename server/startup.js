@@ -12,7 +12,8 @@ Meteor.startup(function () {
       votes: 1,
       createdOn: new Date(),
       upvoters: [],
-      downvoters: []
+      downvoters: [],
+      deleted: false
     });
     
     Websites.insert({
@@ -22,7 +23,8 @@ Meteor.startup(function () {
       votes: 1,
       createdOn: new Date(),
       upvoters: [],
-      downvoters: []
+      downvoters: [],
+      deleted: false
     });
     
     Websites.insert({
@@ -32,7 +34,8 @@ Meteor.startup(function () {
       votes: 1,
       createdOn: new Date(),
       upvoters: [],
-      downvoters: []
+      downvoters: [],
+      deleted: false
     });
     
     Websites.insert({
@@ -42,7 +45,8 @@ Meteor.startup(function () {
       votes: 1,
       createdOn: new Date(),
       upvoters: [],
-      downvoters: []
+      downvoters: [],
+      deleted: false
     });
     
   }

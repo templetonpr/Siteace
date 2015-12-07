@@ -7,11 +7,19 @@
 </head>
 
 <body>
+</body>
+
+<template name="ApplicationLayout">
+  {{> yield "navbar"}}
+  {{> yield "main"}}
+</template>
+
+<template name="navbar">
   <!-- navbar  - you will be putting the login functions here -->
   <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
           Site Ace
         </a>
       </div>
@@ -22,15 +30,7 @@
       </div>
     </div>
   </nav>
-
-  <div class="container">
-    {{#if currentUser}}
-      <p>Add a website: {{> website_form}}</p>
-    {{/if}}
-
-    {{> website_list}}
-  </div>
-</body>
+</template>
 
 <template name="website_form">
 	<a class="btn btn-default js-toggle-website-form" href="#">
@@ -58,17 +58,25 @@
 
 <!-- template that displays several website items -->
 <template name="website_list">
-	<ol>
+    <div class="container">
+    
+    {{#if currentUser}}
+      <p>Add a website: {{> website_form}}</p>
+    {{/if}}
+
+    <ol>
 	  {{#each websites}}
 	    {{> website_item}}
 	  {{/each}}
 	</ol>
+	
+  </div>
+	
 </template>
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
- 
-  <div class="row panel" id="item{{_id}}">
+  <div class="row panel" id="panel{{_id}}">
 
     <div class="col-xs-9 col-xs-offset-1">
      
@@ -83,7 +91,7 @@
       <div class=""> <!-- footer -->
         <small>
           <ul class="website-item-footer">
-            <li><a href="#">Details</a></li> <!-- go to details page -->
+            <li><a href="details/{{_id}}">Details</a></li> <!-- go to details page -->
           {{#if currentUser}}
             <li><a href="#" class="js-delete">Delete</a></li>  <!-- delete site. Only available to user that added site -->
           {{/if}}
@@ -114,49 +122,55 @@
 </template>
 
 
-<template name="website_details">
-  <!-- details and comments about a particular site -->
-  <div class="row panel">
+<template name="website_details"> <!-- details and comments about a particular site -->
+  <div class="container">
+    <div class="row panel" id="panel{{_id}}">
+      <div class="col-xs-9 col-xs-offset-1">
 
-    <div class="col-xs-9 col-xs-offset-1">
-      <div class=""> <!-- heading -->
-        <h3><a href="{{url}}"><strong>{{title}}</strong></a></h3>
+        <div class="">
+          <h3><a href="{{url}}"><strong>{{title}}</strong></a></h3>
+        </div>
+
+        <div class="">
+          <p><i>{{description}}</i></p>
+          <p class="small">Submitted by: {{getUser}}</p>
+          <p class="small">Created: {{createdOn}}</p>
+        </div>
+
+        <div class="">
+          <small>
+            <ul class="website-item-footer">
+            {{#if currentUser}}
+              <li><a href="#" class="js-delete">Delete</a></li>
+            {{/if}}
+            </ul>
+          </small>
+          <br>
+        </div>
       </div>
-      <div class="">
-        <p><i>{{description}}</i></p>
-        <p class="small">Submitted by: {{getUser}}</p>
-        <p class="small">Created: {{createdOn}}</p>
-      </div> <!-- body -->
-      <div class=""> <!-- footer -->
-        <small>
-          <ul class="website-item-footer">
-            <li><a href="#" class="js-hide">Details</a></li> <!-- go to details page -->
-          {{#if currentUser}}
-            <li><a href="#" class="js-delete">Delete</a></li>  <!-- delete site. Only available to user that added site -->
-          {{/if}}
-          </ul>
-        </small>
+
+      <div class="col-xs-2 text-center">
+        <br>
+        <a href="#" class="btn btn-default js-upvote">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+        </a>
+        <p>Votes: {{votes}}</p>
+        <a href="#" class="btn btn-default js-downvote">
+          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </a>
         <br>
       </div>
+
     </div>
 
-    <div class="col-xs-2 text-center">
-      <br>
-      <a href="#" class="btn btn-default js-upvote">
-        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-      </a>
-      <p>Votes: {{votes}}</p>
-      <a href="#" class="btn btn-default js-downvote">
-        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-      </a>
-      <br>
+    <div class="row"> <!-- Comments -->
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="comment-section">
+          {{> commentsBox id=_id}}
+        </div>
+      </div>
     </div>
-
-  </div>
-
-  <div class="row">
-    <button class="btn btn-default">New Comment</button>
-    <!-- comments -->
+    
   </div>
 
 </template>

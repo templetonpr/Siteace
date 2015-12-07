@@ -1,16 +1,34 @@
-  /////////////////////
+/////////////////////
  //     routing     //
 /////////////////////
 
-// todo
+Router.configure({
+  layoutTemplate: "ApplicationLayout"
+});
+
+Router.route("/", function(){
+  this.render( "navbar", {to: "navbar"} );
+  this.render( "website_list", {to: "main", path: "/"} );
+});
+
+Router.route("/details/:_id", function(){
+  this.render( "navbar", {to: "navbar"} );
+  this.render( "website_details", {
+    to: "main",
+    path: "details/_id",
+    data: function(){
+      return Websites.findOne({_id: this.params._id});
+    }
+  });
+});
 
   /////////////////////
- // Accounts config //
+ //     config      //
 /////////////////////
 
-Accounts.ui.config({
-  passwordSignupFields: "USERNAME_AND_EMAIL"
-});
+Accounts.ui.config({ passwordSignupFields: 'USERNAME_AND_EMAIL' });
+
+Comments.ui.config({ template: "bootstrap" });
 
   //////////////////////
  // template helpers //
@@ -24,15 +42,14 @@ Template.website_list.helpers({
 
 });
 
-Template.website_item.helpers({
+Template.website_details.helpers({
 
   getUser: function(){
     var user = Meteor.users.findOne({_id: this.submittedBy});
     if (user){
       return user.username;
-    }
-    else {
-      return "anon";
+    } else {
+      return "System";
     }
   }
 
@@ -95,14 +112,78 @@ Template.website_item.events({
     user = Meteor.user()._id;
 
     if (user && (submitter == user) ){
-      $("#item" + website_id).hide('slow', function(){
-        Websites.remove({"_id": website_id});
+      $("#panel" + website_id).hide('slow', function(){
+        //Websites.remove({"_id": website_id});
+        Websites.update(website_id, {$set: {deleted: true}});
       });
 
     } else { return false; }
   }
   
 }); // end of website_item events
+
+Template.website_details.events({
+  
+  "click .js-upvote": function(event){
+
+    var user_id = Meteor.user()._id;
+    var site_id = this._id;
+
+    if ( Meteor.user() ){                                            // if user is logged in
+      if ( this.upvoters.indexOf(user_id) > -1){                     //   if user has already upvoted site
+        Websites.update(site_id,  {$inc: {votes: -1}} );             //     decrement votes by 1
+        Websites.update(site_id, {$pull: {upvoters: user_id}});      //     remove user from upvoters array
+      } else {                                                       //   else user has not upvoted site
+        Websites.update(site_id, {$push: {upvoters: user_id}});      //     add user to upvoters
+        Websites.update(site_id,  {$inc: {votes: 1}} );              //     increment votes by 1
+        if ( this.downvoters.indexOf(user_id) > -1 ){                //     user has previously downvoted site
+          Websites.update(tsite_id, {$pull: {downvoters: user_id}}); //       remove user from downvoters array
+        }
+      }
+    }
+    
+    return false; // prevent the button from reloading the page
+  },
+  
+  "click .js-downvote": function(event){
+    
+    var user_id = Meteor.user()._id;
+    var site_id = this._id;
+
+    if ( Meteor.user() ){                                          // if user is logged in
+      if ( this.downvoters.indexOf(user_id) > -1){                 //   if user has already downvoted site
+        Websites.update(site_id,  {$inc: {votes: 1}} );            //     increment votes by 1
+        Websites.update(site_id, {$pull: {downvoters: user_id}});  //     remove user from downvoters array
+      } else {                                                     //   else user has not downvoted site
+        Websites.update(site_id, {$push: {downvoters: user_id}});  //     add user to downvoters
+        Websites.update(site_id,  {$inc: {votes: -1}} );           //     decrement votes by 1
+        if ( this.upvoters.indexOf(user_id) > -1 ){                //     user has previously upvoted site
+          Websites.update(site_id, {$pull: {upvoters: user_id}});  //       remove user from upvoters array
+        }
+      }
+    }
+    
+    return false; // prevent the button from reloading the page
+  },
+
+  "click .js-delete": function(event){
+    var website_id,submitter, user;
+
+    website_id = this._id;
+    submitter = this.submittedBy;
+    user = Meteor.user()._id;
+
+    if (user && (submitter == user) ){
+      $("#panel" + website_id).hide('slow', function(){
+        //Websites.remove({"_id": website_id});
+        Websites.update(website_id, {$set: {deleted: true}});
+        Router.go("/");
+      });
+      
+      } else { return false; }
+  }
+  
+}); // end of website_details events
 
 Template.website_form.events({
   "click .js-toggle-website-form": function(event){
@@ -132,7 +213,8 @@ Template.website_form.events({
           createdOn:          new Date(),
           submittedBy:           user_id,
           upvoters:            [user_id],
-          downvoters:                 []
+          downvoters:                 [],
+          deleted:                 false
         });
 
       } else { console.log("Site already exists..."); }
