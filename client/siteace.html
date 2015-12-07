@@ -67,15 +67,19 @@
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
+ 
   <div class="row panel" id="item{{_id}}">
 
     <div class="col-xs-9 col-xs-offset-1">
+     
       <div class=""> <!-- heading -->
         <h3><a href="{{url}}"><li><strong>{{title}}</strong></li></a></h3>
       </div>
-      <div class="">
+      
+      <div class=""> <!-- body -->
       <p>{{description}}</p>
-      </div> <!-- body -->
+      </div>
+      
       <div class=""> <!-- footer -->
         <small>
           <ul class="website-item-footer">
@@ -87,17 +91,22 @@
         </small>
         <br>
       </div>
+      
     </div>
 
     <div class="col-xs-2 text-center">
       <br>
+      
       <a href="#" class="btn btn-default js-upvote">
         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
       </a>
+      
       <p>Votes: {{votes}}</p>
+        
       <a href="#" class="btn btn-default js-downvote">
         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
       </a>
+      
       <br>
     </div>
 

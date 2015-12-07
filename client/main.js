@@ -1,26 +1,25 @@
-	  /////////////////////
-	 //     routing     //
-	/////////////////////
+  /////////////////////
+ //     routing     //
+/////////////////////
 
 // todo
 
-	  /////////////////////
-	 // Accounts config //
-	/////////////////////
+  /////////////////////
+ // Accounts config //
+/////////////////////
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
 });
 
-	  //////////////////////
-	 // template helpers //
-	//////////////////////
+  //////////////////////
+ // template helpers //
+//////////////////////
 
-// helper function that returns all available websites
 Template.website_list.helpers({
 
-  websites: function(){
-    return Websites.find({}, {sort:{createdOn: -1, votes:-1}});
+  websites: function(){ // returns all websites sorted in decending order of votes, creation date
+    return Websites.find({}, {sort: {votes: -1, createdOn: -1}});
   }
 
 });
@@ -40,34 +39,52 @@ Template.website_item.helpers({
 });
 
 
-	  /////////////////////
-	 // template events //
-	/////////////////////
+  /////////////////////
+ // template events //
+/////////////////////
 
 Template.website_item.events({
   
   "click .js-upvote": function(event){
-    // example of how you can access the id for the website in the database
-    // (this is the data context for the template)
-    var website_id, votes;
-    website_id = this._id;
-    votes = this.votes;
-    console.log("Up voting site with id " + website_id + ". Site now has " + votes + " votes.");
-    // put the code in here to add a vote to a website!
+
+    var user_id = Meteor.user()._id;
+    var site_id = this._id;
+
+    if ( Meteor.user() ){                                            // if user is logged in
+      if ( this.upvoters.indexOf(user_id) > -1){                     //   if user has already upvoted site
+        Websites.update(site_id,  {$inc: {votes: -1}} );             //     decrement votes by 1
+        Websites.update(site_id, {$pull: {upvoters: user_id}});      //     remove user from upvoters array
+      } else {                                                       //   else user has not upvoted site
+        Websites.update(site_id, {$push: {upvoters: user_id}});      //     add user to upvoters
+        Websites.update(site_id,  {$inc: {votes: 1}} );              //     increment votes by 1
+        if ( this.downvoters.indexOf(user_id) > -1 ){                //     user has previously downvoted site
+          Websites.update(tsite_id, {$pull: {downvoters: user_id}}); //       remove user from downvoters array
+        }
+      }
+    }
     
-    return false;// prevent the button from reloading the page
+    return false; // prevent the button from reloading the page
   },
   
   "click .js-downvote": function(event){
-    // example of how you can access the id for the website in the database
-    // (this is the data context for the template)
-    var website_id, votes;
-    website_id = this._id;
     
-    console.log("Down voting site with id " + website_id + ". Site now has " + votes + " votes.");
-    // put the code in here to remove a vote from a website!
+    var user_id = Meteor.user()._id;
+    var site_id = this._id;
+
+    if ( Meteor.user() ){                                          // if user is logged in
+      if ( this.downvoters.indexOf(user_id) > -1){                 //   if user has already downvoted site
+        Websites.update(site_id,  {$inc: {votes: 1}} );            //     increment votes by 1
+        Websites.update(site_id, {$pull: {downvoters: user_id}});  //     remove user from downvoters array
+      } else {                                                     //   else user has not downvoted site
+        Websites.update(site_id, {$push: {downvoters: user_id}});  //     add user to downvoters
+        Websites.update(site_id,  {$inc: {votes: -1}} );           //     decrement votes by 1
+        if ( this.upvoters.indexOf(user_id) > -1 ){                //     user has previously upvoted site
+          Websites.update(site_id, {$pull: {upvoters: user_id}});  //       remove user from upvoters array
+        }
+      }
+    }
     
-    return false;// prevent the button from reloading the page
+    return false; // prevent the button from reloading the page
   },
 
   "click .js-delete": function(event){
@@ -93,17 +110,19 @@ Template.website_form.events({
   },
   
   "submit .js-save-website-form": function(event){
-    // here is an example of how to get the url out of the form:
-    var url, title, description;
-    url         = event.target.url.value; // user inputs this in submit form.
-    title       = event.target.title.value; // eventually this should use the HTTP module to automatically grab the page's title
+    var url, title, description, user_id;
+    
+    url         = event.target.url.value;         // user inputs this in submit form.
+    title       = event.target.title.value;       // eventually this should use the HTTP module to automatically grab the page's title
     description = event.target.description.value; // eventually this should use the HTTP module to automatically grab a description from...somewhere?
+    user_id     = Meteor.user()._id;
+    
     function isUnique(site){
       if ( !Websites.findOne({url: site}) ){ return true; } else { return false; }
     }
 
-    if ( Meteor.user() ){
-      if ( isUnique(url) ){
+    if ( Meteor.user() ){ // if logged in
+      if ( isUnique(url) ){ // if URL not already in Websites
 
         Websites.insert({
           url:                       url,
@@ -111,12 +130,14 @@ Template.website_form.events({
           title:                   title,
           votes:                       1,
           createdOn:          new Date(),
-          submittedBy: Meteor.user()._id
+          submittedBy:           user_id,
+          upvoters:            [user_id],
+          downvoters:                 []
         });
 
       } else { console.log("Site already exists..."); }
     }
-    return false;// stop the form submit from reloading the page
+    return false; // stop the form submit from reloading the page
   }
   
 }); // end of website_form events
