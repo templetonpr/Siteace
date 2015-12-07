@@ -26,7 +26,7 @@ Router.route("/details/:_id", function(){
  //     config      //
 /////////////////////
 
-Accounts.ui.config({ passwordSignupFields: 'USERNAME_AND_EMAIL' });
+Accounts.ui.config({ passwordSignupFields: 'USERNAME_ONLY' });
 
 Comments.ui.config({ template: "bootstrap" });
 

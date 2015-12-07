@@ -1,0 +1,52 @@
+<template name="website_details"> <!-- details and comments about a particular site -->
+  <div class="container">
+    <div class="row panel" id="panel{{_id}}">
+      <div class="col-xs-9 col-xs-offset-1">
+
+        <div class="">
+          <h3><a href="{{url}}"><strong>{{title}}</strong></a></h3>
+        </div>
+
+        <div class="">
+          <p><i>{{description}}</i></p>
+          <p class="small">Submitted by: {{getUser}}</p>
+          <p class="small">Created: {{createdOn}}</p>
+        </div>
+
+        <div class="">
+          <small>
+            <ul class="website-item-footer">
+            {{#if currentUser}}
+              <li><a href="#" class="js-delete">Delete</a></li>
+            {{/if}}
+            </ul>
+          </small>
+          <br>
+        </div>
+      </div>
+
+      <div class="col-xs-2 text-center">
+        <br>
+        <a href="#" class="btn btn-default js-upvote">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+        </a>
+        <p>Votes: {{votes}}</p>
+        <a href="#" class="btn btn-default js-downvote">
+          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </a>
+        <br>
+      </div>
+
+    </div>
+
+    <div class="row"> <!-- Comments -->
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="comment-section">
+          {{> commentsBox id=_id}}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+</template>

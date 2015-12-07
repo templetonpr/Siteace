@@ -1,0 +1,16 @@
+<template name="website_list"> <!-- template that displays several website items -->
+    <div class="container">
+    
+    {{#if currentUser}}
+      <p>Add a website: {{> website_form}}</p>
+    {{/if}}
+
+    <ol>
+      {{#each websites}}
+        {{> website_item}}
+      {{/each}}
+    </ol>
+    
+  </div>
+    
+</template>
