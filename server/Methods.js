@@ -46,11 +46,16 @@ Meteor.methods({
     }
   },
   
-  submitSite: function(url, title, description){
+  submitSite: function(url, title, description, tags){
     var user_id = Meteor.user()._id;
     if ( Meteor.user() && (!Websites.findOne({url: url})) ){ // if logged in && url is new
+      
+      tags = tags.split(" ");
+      // eventually restricted words will be removed here
+      
       Websites.insert({
         url:                       url,
+        tags:                     tags,
         description:       description,
         title:                   title,
         votes:                       1,

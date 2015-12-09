@@ -101,6 +101,7 @@ Template.website_form.events({
   
   "submit .js-save-website-form": function(event){
     var url         = event.target.url.value;         // user inputs this in submit form.
+    var tags        = event.target.tags.value;        // tags for site
     var title       = event.target.title.value;       // eventually this should use the HTTP module to automatically grab the page's title
     var description = event.target.description.value; // eventually this should use the HTTP module to automatically grab a description from...somewhere?
     
@@ -109,7 +110,7 @@ Template.website_form.events({
       console.log("url doesn't have 'http://'. adding...New url: " + url);
     }
     
-    Meteor.call("submitSite", url, title, description);
+    Meteor.call("submitSite", url, title, description, tags);
     return false; // stop the form submit from reloading the page
   }
   

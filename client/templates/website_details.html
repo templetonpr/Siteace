@@ -9,8 +9,16 @@
 
         <div class="">
           <p><i>{{description}}</i></p>
-          <p class="small">Submitted by: {{getUser}}</p>
-          <p class="small">Created: {{createdOn}}</p>
+          <p class="small tags-list">
+            Tags:
+            <ul>
+              {{#each tags}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </p>
+          
+          <p class="small">Submitted by: {{getUser}} Created: {{createdOn}}</p>
         </div>
 
         <div class="">

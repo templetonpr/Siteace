@@ -25,3 +25,14 @@ body {
     list-style-type: none;
     text-align: center;
 }
+
+.small {
+  font-size: 80%;
+}
+
+.tags-list li {
+  display: inline;
+  padding: 5px;
+  list-style-type: none;
+  text-align: center;
+}
