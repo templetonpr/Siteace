@@ -9,9 +9,11 @@ Meteor.methods({
         Websites.update(site_id, {$pull: {upvoters: user_id}});      //     remove user from upvoters array
       } else {                                                       //   else user has not upvoted site
         Websites.update(site_id, {$push: {upvoters: user_id}});      //     add user to upvoters
-        Websites.update(site_id, {$inc: {votes: 1}} );               //     increment votes by 1
         if ( site.downvoters.indexOf(user_id) > -1 ){                //     user has previously downvoted site
           Websites.update(site_id, {$pull: {downvoters: user_id}});  //       remove user from downvoters array
+          Websites.update(site_id, {$inc: {votes: 2}} );             //       increment votes by 2 to cancel out downvote
+        } else {                                                     //     user hasn't previously downvoted site
+          Websites.update(site_id, {$inc: {votes: 1}} );             //       increment votes by 1
         }
       }
     }
@@ -26,9 +28,11 @@ Meteor.methods({
         Websites.update(site_id, {$pull: {downvoters: user_id}});  //     remove user from downvoters array
       } else {                                                     //   else user has not downvoted site
         Websites.update(site_id, {$push: {downvoters: user_id}});  //     add user to downvoters
-        Websites.update(site_id,  {$inc: {votes: -1}} );           //     decrement votes by 1
         if ( site.upvoters.indexOf(user_id) > -1 ){                //     user has previously upvoted site
           Websites.update(site_id, {$pull: {upvoters: user_id}});  //       remove user from upvoters array
+          Websites.update(site_id, {$inc: {votes: -2}} );          //       decrement votes by 2 to cancel out upvote
+        } else {                                                   //     user hasn't previously upvoted site
+          Websites.update(site_id,  {$inc: {votes: -1}} );         //       decrement votes by 1
         }
       }
     }
