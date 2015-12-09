@@ -1,3 +1,3 @@
 Meteor.publish('websites', function(){
-  return Websites.find({});
+  return Websites.find({deleted: false});
 });
