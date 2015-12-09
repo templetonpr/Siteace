@@ -100,18 +100,28 @@ Template.website_form.events({
   },
   
   "submit .js-save-website-form": function(event){
-    var url         = event.target.url.value;         // user inputs this in submit form.
-    var tags        = event.target.tags.value;        // tags for site
-    var title       = event.target.title.value;       // eventually this should use the HTTP module to automatically grab the page's title
-    var description = event.target.description.value; // eventually this should use the HTTP module to automatically grab a description from...somewhere?
+    var url = event.target.url.value;
+    var tags = event.target.tags.value;
+    var title = event.target.title.value;
+    var description = event.target.description.value;
     
-    if ( !(/https*:\/\//.test(url)) ){ // check if url starts with "http://" or "https://"
-      url = "http://" + url;
-      console.log("url doesn't have 'http://'. adding...New url: " + url);
-    }
+    // if user didn't start with 'http://' or 'https://', add it to url for proper format
+    if ( !(url.startsWith('http://') || url.startsWith('https://')) ){ url = "http://" + url; }
     
-    Meteor.call("submitSite", url, title, description, tags);
-    return false; // stop the form submit from reloading the page
+    extractMeta(url, function(error, result){
+      // from 'acemtp:meta-extractor' package. Automatically gets any available meta info from url.
+      if (error){
+        console.log(error);
+      } else {
+        if (!description){ description = result.description; }
+        if (!description){ description = " Could not find description"; }
+        if (!title){ title = result.title; }
+        if (!title){ title = url; description += " Could not find title"; }
+        Meteor.call('submitSite', url, title, description, tags);
+      }
+    });
+    
+    return false;
   }
-  
+
 }); // end of website_form events

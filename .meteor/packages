@@ -22,3 +22,4 @@ accounts-ui
 accounts-password
 arkham:comments-ui
 iron:router
+acemtp:meta-extractor

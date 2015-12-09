@@ -6,22 +6,22 @@
         <form class="js-save-website-form">
          
           <div class="form-group">
-            <label for="url">Site address</label>
-            <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+            <label for="url">Site URL (Required)</label>
+            <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com" required>
           </div>
           
           <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">Title (Optional. Will use title element from URL if not specified)</label>
             <input type="text" class="form-control" id="title" placeholder="Mysite">
           </div>
           
           <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Description (Optional. Will use meta description from URL if not specified. Maybe.)</label>
             <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
           </div>
           
           <div class="form-group">
-            <label for="tags">Any number of tags seperated by spaces</label>
+            <label for="tags">Any number of tags seperated by spaces (Optional)</label>
             <input type="text" class="form-control" id="tags" placeholder="cat dog fish horse animals">
           </div>
 
