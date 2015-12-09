@@ -23,7 +23,7 @@ Template.website_list.helpers({
 Template.website_item.helpers({
   
   submittedByThisUser: function(){
-    return (this.submittedBy === Meteor.userId) ? true : false;
+    return (this.submittedBy === Meteor.userId() ) ? true : false;
   }
   
 });
@@ -40,7 +40,7 @@ Template.website_details.helpers({
   },
   
   submittedByThisUser: function(){
-    return (this.submittedBy === Meteor.userId) ? true : false;
+    return (this.submittedBy === Meteor.userId() ) ? true : false;
   }
 
 });
