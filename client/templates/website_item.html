@@ -15,7 +15,7 @@
         <small>
           <ul class="website-item-footer">
             <li><a href="details/{{_id}}">Details</a></li> <!-- go to details page -->
-          {{#if currentUser}}
+          {{#if submittedByThisUser}}
             <li><a href="#" class="js-delete">Delete</a></li>  <!-- delete site. Only available to user that added site -->
           {{/if}}
           </ul>

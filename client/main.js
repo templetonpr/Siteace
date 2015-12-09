@@ -1,4 +1,6 @@
-  /////////////////////
+Meteor.subscribe("websites", function(){ return Websites.find().fetch(); });
+
+/////////////////////
  //     config      //
 /////////////////////
 
@@ -18,6 +20,14 @@ Template.website_list.helpers({
 
 });
 
+Template.website_item.helpers({
+  
+  submittedByThisUser: function(){
+    return (this.submittedBy === Meteor.userId) ? true : false;
+  }
+  
+});
+
 Template.website_details.helpers({
 
   getUser: function(){
@@ -27,6 +37,10 @@ Template.website_details.helpers({
     } else {
       return "System";
     }
+  },
+  
+  submittedByThisUser: function(){
+    return (this.submittedBy === Meteor.userId) ? true : false;
   }
 
 });
@@ -151,8 +165,8 @@ Template.website_details.events({
 
     if (user && (submitter == user) ){
       $("#panel" + website_id).hide('slow', function(){
-        //Websites.remove({"_id": website_id});
-        Websites.update(website_id, {$set: {deleted: true}});
+        Websites.remove({"_id": website_id});
+        //Websites.update(website_id, {$set: {deleted: true}});
         Router.go("/");
       });
       
