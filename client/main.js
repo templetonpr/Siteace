@@ -100,27 +100,44 @@ Template.website_form.events({
   },
   
   "submit .js-save-website-form": function(event){
-    var url = event.target.url.value;
-    var tags = event.target.tags.value;
-    var title = event.target.title.value;
-    var description = event.target.description.value;
-    
-    // if user didn't start with 'http://' or 'https://', add it to url for proper format
-    if ( !(url.startsWith('http://') || url.startsWith('https://')) ){ url = "http://" + url; }
-    
-    extractMeta(url, function(error, result){
-      // from 'acemtp:meta-extractor' package. Automatically gets any available meta info from url.
-      if (error){
-        console.log(error);
+    if ( !Meteor.user() ){ // user not logged in
+      alert("You need to log in first...");
+      return false;
+    } else {
+      
+      var url         = event.target.url.value;
+      var title       = event.target.title.value;
+      var description = event.target.description.value;
+      var tags        = event.target.tags.value;
+
+      // if user didn't start with 'http://' or 'https://', add it to url for proper format
+      if ( !(url.startsWith('http://') || url.startsWith('https://')) ){ url = "http://" + url; }
+
+      if ( Websites.findOne({url: url}) ){ // site already in DB
+        alert("Already exists in database. Please choose another site.");
+        return false;
       } else {
-        if (!description){ description = result.description; }
-        if (!description){ description = " Could not find description"; }
-        if (!title){ title = result.title; }
-        if (!title){ title = url; description += " Could not find title"; }
-        Meteor.call('submitSite', url, title, description, tags);
+        
+        Meteor.call('submitSite', url, title, description, tags, function(error, result){
+          if (error){
+            code = error.statusCode;
+          } else {
+            code = result.statusCode;
+          }
+          
+          if ( code == 200 ){
+            alert("Site added.");
+            // Site submission successful.
+          } else if ( code == 404 ){
+            alert("Error 404: Page could not be found.");
+          } else if ( code == 403 ){
+            alert("Error 403: Page forbidden.");
+          } else {
+            alert("Error: " + code + ".");
+          }
+        }); //end submitSite
       }
-    });
-    
+    }
     return false;
   }
 

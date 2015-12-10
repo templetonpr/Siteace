@@ -47,25 +47,54 @@ Meteor.methods({
   },
   
   submitSite: function(url, title, description, tags){
-    var user_id = Meteor.user()._id;
-    if ( Meteor.user() && (!Websites.findOne({url: url})) ){ // if logged in && url is new
+    
+    if ( !Meteor.user() ){
+      throw new Meteor.Error("User not logged in");
+    } else if ( Websites.findOne({url: url}) ){
+      throw new Meteor.Error("Site already in DB");
+    } else {
       
-      tags = tags.split(" ");
-      // eventually restricted words will be removed here
-      
-      Websites.insert({
-        url:                       url,
-        tags:                     tags,
-        description:       description,
-        title:                   title,
-        votes:                       1,
-        createdOn:          new Date(),
-        submittedBy:           user_id,
-        upvoters:            [user_id],
-        downvoters:                 [],
-        deleted:                 false
-      });
+      try {
+        response = HTTP.get(url, {timeout: 5000});
+      } catch (e) {
+        response = e.response;
+      } finally {
+        if (response.statusCode == 200){
+          var user_id = Meteor.user()._id;
+
+          tags = tags.split(" ");
+          // check for & remove blacklisted words here.
+          // If any are found, throw an error and don't insert site.
+
+          var meta = extractMeta(url); // set title & desc to site's info if user didn't input. Probably redo this.
+          if (!description){ description = meta.description; }
+          if (!description){ description = " Could not find description"; }
+          if (!title){ title = meta.title; }
+          if (!title){ title = url; description += " Could not find title"; }
+
+          newSite = {
+            url:                       url,
+            tags:                     tags,
+            description:       description,
+            title:                   title,
+            votes:                       1,
+            createdOn:          new Date(),
+            submittedBy:           user_id,
+            upvoters:            [user_id],
+            downvoters:                 [],
+            deleted:                 false
+          };
+
+          Websites.insert(newSite);
+
+          return response;
+        } else {
+          return response;
+        }
+      }
     }
   }
   
 });
+
+// https://groups.google.com/forum/#!topic/meteor-talk/fQmeofXROuY
