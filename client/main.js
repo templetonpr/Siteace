@@ -126,8 +126,10 @@ Template.website_form.events({
           }
           
           if ( code == 200 ){
-            alert("Site added.");
             // Site submission successful.
+            alert("Site added.");
+            $("#website_form").toggle('slow');
+            
           } else if ( code == 404 ){
             alert("Error 404: Page could not be found.");
           } else if ( code == 403 ){
