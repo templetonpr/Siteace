@@ -73,16 +73,17 @@ Meteor.methods({
           if (!title){ title = url; description += " Could not find title"; }
 
           newSite = {
-            url:                       url,
-            tags:                     tags,
-            description:       description,
-            title:                   title,
-            votes:                       1,
-            createdOn:          new Date(),
-            submittedBy:           user_id,
-            upvoters:            [user_id],
-            downvoters:                 [],
-            deleted:                 false
+            url:                                url,
+            tags:                              tags,
+            description:                description,
+            title:                            title,
+            votes:                                1,
+            createdOn:                   new Date(),
+            submittedBy:                    user_id,
+            submittedByName: Meteor.user().username,
+            upvoters:                     [user_id],
+            downvoters:                          [],
+            deleted:                          false
           };
 
           Websites.insert(newSite);

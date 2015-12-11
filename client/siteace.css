@@ -13,13 +13,14 @@ body {
 
 .panel {
     background-color: #cccccc;
+    padding: 10px;
 }
 
-.website-item-footer {
+.website-footer {
     padding-left: 0px;
 }
 
-.website-item-footer li {
+.website-footer li {
     display: inline;
     padding: 5px;
     list-style-type: none;
@@ -30,9 +31,38 @@ body {
   font-size: 80%;
 }
 
-.tags-list li {
+.details-list {
+  padding-left: 110px;
+}
+
+.details-list li {
   display: inline;
   padding: 5px;
   list-style-type: none;
   text-align: center;
+}
+
+.votebox {
+  padding: 10px;
+}
+
+.comment-panel {
+  margin: 30px;
+}
+
+.details-button {
+  margin-left: 110px;
+}
+
+.btn-vote {
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.upvoted {
+  background-color: #ff4500;
+}
+
+.downvoted {
+  background-color: #9494ff;
 }

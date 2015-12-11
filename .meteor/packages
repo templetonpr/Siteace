@@ -18,8 +18,8 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 twbs:bootstrap
 http
-accounts-ui
 accounts-password
 arkham:comments-ui
 iron:router
 acemtp:meta-extractor
+ian:accounts-ui-bootstrap-3

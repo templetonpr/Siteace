@@ -1,60 +1,34 @@
 <template name="website_details"> <!-- details and comments about a particular site -->
   <div class="container">
     <div class="row panel" id="panel{{_id}}">
-      <div class="col-xs-9 col-xs-offset-1">
-
-        <div class="">
-          <h3><a href="{{url}}" target="_blank"><strong>{{title}}</strong></a></h3>
-        </div>
-
-        <div class="">
-          <p><i>{{description}}</i></p>
-          <p class="small tags-list">
-            Tags:
-            <ul>
-              {{#each tags}}
-                <li>{{this}}</li>
-              {{/each}}
-            </ul>
-          </p>
-          
-          <p class="small">Submitted by: {{getUser}} Created: {{createdOn}}</p>
-        </div>
-
-        <div class="">
-          <small>
-            <ul class="website-item-footer">
-            {{#if submittedByThisUser}}
-              <li><a href="#" class="js-delete">Delete</a></li>
-            {{/if}}
-            </ul>
-          </small>
-          <br>
-        </div>
-      </div>
-
-      <div class="col-xs-2 text-center">
-        <br>
-        <a href="#" class="btn btn-default js-upvote">
-          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-        </a>
-        <p>Votes: {{votes}}</p>
-        <a href="#" class="btn btn-default js-downvote">
-          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-        </a>
-        <br>
-      </div>
-
-    </div>
-
-    <div class="row"> <!-- Comments -->
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="comment-section">
-          {{> commentsBox id=_id}}
-        </div>
-      </div>
+      <br>
+      <br>
+      {{> website_card}}
+      <br>
+      
+      <ul class="details-list">Tags: 
+        {{#each tags}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      
+      <ul class="details-list">
+        <li>
+          {{#if submittedByThisUser}}
+            <a href="#" class="js-delete btn btn-sm btn-danger">Delete</a>
+          {{/if}}
+        </li>
+        <li class="small">Submitted by: <strong>{{getUser}}</strong> Created: <strong>{{createdOn}}</strong></li>
+      </ul> 
     </div>
     
+    <div class="row panel comment-panel"> <!-- Comments -->
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="comment-section">
+            {{> commentsBox id=_id}}
+          </div>
+        </div>
+      </div>
+      
   </div>
-
 </template>

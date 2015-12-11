@@ -13,6 +13,7 @@ Meteor.startup(function () {
       createdOn: new Date(),
       upvoters: [],
       downvoters: [],
+      submittedByName: "System",
       deleted: false
     });
     
@@ -24,6 +25,7 @@ Meteor.startup(function () {
       createdOn: new Date(),
       upvoters: [],
       downvoters: [],
+      submittedByName: "System",
       deleted: false
     });
     
@@ -35,6 +37,7 @@ Meteor.startup(function () {
       createdOn: new Date(),
       upvoters: [],
       downvoters: [],
+      submittedByName: "System",
       deleted: false
     });
     
@@ -46,6 +49,7 @@ Meteor.startup(function () {
       createdOn: new Date(),
       upvoters: [],
       downvoters: [],
+      submittedByName: "System",
       deleted: false
     });
     

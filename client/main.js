@@ -20,10 +20,22 @@ Template.website_list.helpers({
 
 });
 
-Template.website_item.helpers({
+Template.website_card.helpers({
   
-  submittedByThisUser: function(){
-    return (this.submittedBy === Meteor.user()._id ) ? true : false;
+  userUpvoteStatus: function(){
+    if (Meteor.user()){
+      if (this.upvoters.indexOf(Meteor.user()._id) != -1){
+        return "upvoted";
+      }
+    }
+  },
+  
+  userDownvoteStatus: function(){
+    if (Meteor.user()){
+      if (this.downvoters.indexOf(Meteor.user()._id) != -1){
+        return "downvoted";
+      }
+    }
   }
   
 });
@@ -31,67 +43,19 @@ Template.website_item.helpers({
 Template.website_details.helpers({
 
   getUser: function(){
-    return (Meteor.users.findOne({_id: this.submittedBy})) ? Meteor.user().username : "System";
+    return this.submittedByName;
   },
   
   submittedByThisUser: function(){
-    return (this.submittedBy === Meteor.user()._id ) ? true : false;
+    return ( Meteor.user() && this.submittedBy === Meteor.user()._id ) ? true : false;
   }
-
+  
 });
 
 
   /////////////////////
  // template events //
 /////////////////////
-
-Template.website_item.events({
-  
-  "click .js-upvote": function(event){
-    var site_id = this._id;
-    Meteor.call("upvote", site_id);
-    // do fancy upvote animation here.
-    return false;
-  },
-  
-  "click .js-downvote": function(event){
-    var site_id = this._id;
-    Meteor.call("downvote", site_id);
-    // do fancy downvote animation here.
-    return false; // prevent the button from reloading the page
-  },
-
-  "click .js-delete": function(event){
-    var site_id = this._id;
-     $("#panel" + site_id).hide('slow', function(){ Router.go("/"); });
-    Meteor.call("deleteSite", site_id);
-  }
-  
-}); // end of website_item events
-
-Template.website_details.events({
-  
-  "click .js-upvote": function(event){
-    var site_id = this._id;
-    Meteor.call("upvote", site_id);
-    // do fancy upvote animation here.
-    return false;
-  },
-  
-  "click .js-downvote": function(event){
-    var site_id = this._id;
-    Meteor.call("downvote", site_id);
-    // do fancy downvote animation here.
-    return false; // prevent the button from reloading the page
-  },
-
-  "click .js-delete": function(event){
-    var site_id = this._id;
-     $("#panel" + site_id).hide('slow', function(){ Router.go("/"); });
-    Meteor.call("deleteSite", site_id);
-  }
-  
-}); // end of website_details events
 
 Template.website_form.events({
   
@@ -144,3 +108,27 @@ Template.website_form.events({
   }
 
 }); // end of website_form events
+
+Template.website_card.events({
+  
+  "click .js-upvote": function(event){
+    var site_id = this._id;
+    Meteor.call("upvote", site_id);
+    // do fancy upvote animation here.
+    return false;
+  },
+  
+  "click .js-downvote": function(event){
+    var site_id = this._id;
+    Meteor.call("downvote", site_id);
+    // do fancy downvote animation here.
+    return false; // prevent the button from reloading the page
+  },
+
+  "click .js-delete": function(event){
+    var site_id = this._id;
+     $("#panel" + site_id).hide('slow', function(){ Router.go("/"); });
+    Meteor.call("deleteSite", site_id);
+  }
+  
+}); // end of votebox events

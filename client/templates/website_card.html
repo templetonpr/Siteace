@@ -1,0 +1,19 @@
+<template name="website_card">
+  <div class="col-xs-9 col-xs-offset-1">
+    <div>
+      <h3><a href="{{url}}" target="_blank"><strong>{{title}}</strong></a></h3>
+    </div>
+    <div>
+      <p>{{description}}</p>
+    </div>
+  </div>
+  <div class="col-xs-2 text-center votebox">
+    <a href="#" class="btn btn-vote js-upvote {{userUpvoteStatus}}">
+      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+    </a>
+    <p>Votes: {{votes}}</p>
+    <a href="#" class="btn btn-vote js-downvote {{userDownvoteStatus}}">
+      <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+    </a>
+  </div>
+</template>
