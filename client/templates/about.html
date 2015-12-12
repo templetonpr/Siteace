@@ -1,0 +1,45 @@
+<template name="about">
+  <div class="container">
+    <article class="panel">
+      <h3>About</h3>
+      <p>
+        Site Ace is a social website aggrigator app created with <a href="https://www.meteor.com/">Meteor</a> for Coursera's <a href="https://www.coursera.org/learn/meteor-development/">Introduction to Meteor.js Development</a> course.
+      </p>
+      <p>Created by: <a href="http://patricktempleton.xyz">Patrick Templeton</a></p>
+      <a class="btn btn-info" href="https://github.com/templetonpr/Siteace">Link to Github page</a>
+    </article>
+
+    <article class="panel">
+      <h3>Instructions from course</h3>
+
+      <p>
+        You are to make a website aggregator application. The purpose of the application is to allow users to share, discuss and rate pages they find on the internet. You are provided with some starter code which displays a simple list of websites. You can gain up to 70% by implementing the following features:
+      </p>
+      <ol>
+        <li>Users can register and login.</li>
+        <li>Users can post new websites if they are logged in. Websites posted by users should have an URL and a description.</li>
+        <li>Users can up and down vote webpages by clicking a plus or a minus button.</li>
+        <li>Websites should be listed with the most up voted site first.</li>
+        <li>The listing page shows when the website was added and how many up and down votes it has.</li>
+        <li>Users can move to a detail page for a website (using routing).</li>
+        <li>On the detail page, users can post comments about a webpage, and they are displayed below the description of the webpage.</li>
+      </ol>
+      <p>You can gain a further 30% by implementing one or more of the following features:</p>
+      <ul>
+        <li>
+          <p>Challenge 1: Automatic information</p>
+          <p>Can you use the HTTP package for Meteor to pull in information about the posted web links automatically, so the user does not need to enter anything other than the URL?</p>
+        </li>
+        <li>
+          <p>Challenge 2: Search function</p>
+          <p>Implement a search function that allows the user to search within the listed sites for key words.</p>
+        </li>
+        <li>
+          <p>Challenge 3: Website recommender</p>
+          <p>Can you recommend websites to users based on things they have up voted and commented on? E.g. if I up vote a site entitled ‘Tofu recipes’, it would recommend other sites with ‘tofu’ and ‘recipe’ in their titles or descriptions.</p>
+        </li>
+      </ul>
+      <p>You should deploy your application using the Meteor deploy command and submit a link to the site running on the Meteor server.</p>
+    </article>
+  </div>
+</template>
