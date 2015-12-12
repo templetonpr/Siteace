@@ -51,7 +51,9 @@ Meteor.methods({
     if ( !Meteor.user() ){
       throw new Meteor.Error("User not logged in");
     } else if ( Websites.findOne({url: url}) ){
-      throw new Meteor.Error("Site already in DB");
+      //throw new Meteor.Error("Site already in DB");
+      response.statusCode = 999;
+      return response;
     } else {
       
       try {

@@ -59,10 +59,6 @@ Template.website_details.helpers({
 
 Template.website_form.events({
   
-  "click .js-toggle-website-form": function(event){
-    $("#website_form").toggle('slow');
-  },
-  
   "submit .js-save-website-form": function(event){
     if ( !Meteor.user() ){ // user not logged in
       alert("You need to log in first...");
@@ -92,12 +88,14 @@ Template.website_form.events({
           if ( code == 200 ){
             // Site submission successful.
             alert("Site added.");
-            $("#website_form").toggle('slow');
+            $('#website_form').modal('hide');
             
           } else if ( code == 404 ){
             alert("Error 404: Page could not be found.");
           } else if ( code == 403 ){
             alert("Error 403: Page forbidden.");
+          } else if ( code == 999 ){
+            alert("Site was already submitted, but deleted." );
           } else {
             alert("Error: " + code + ".");
           }
@@ -123,7 +121,11 @@ Template.website_card.events({
     Meteor.call("downvote", site_id);
     // do fancy downvote animation here.
     return false; // prevent the button from reloading the page
-  },
+  }
+  
+}); // end of website_card events
+
+Template.website_details.events({
 
   "click .js-delete": function(event){
     var site_id = this._id;
@@ -131,4 +133,4 @@ Template.website_card.events({
     Meteor.call("deleteSite", site_id);
   }
   
-}); // end of votebox events
+}); // end of details events

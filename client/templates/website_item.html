@@ -1,9 +1,16 @@
 <template name="website_item">
-  <div class="row panel" id="panel{{_id}}">
-    {{> website_card}}
-    <ul class="website-footer">
-      <li><a class="btn btn-sm btn-default details-button" href="details/{{_id}}">Details</a></li>
-    </ul>
-    <br>
+  <div class="panel" id="panel{{_id}}">
+   
+    <div class="row">
+      {{> website_card}}
+    </div>
+    
+    <div class="row">
+      <ul class="website-footer">
+        <li><a class="btn btn-sm btn-default details-button" href="details/{{_id}}">Details</a></li>
+      </ul>
+      <br>  
+    </div>
+    
   </div>
 </template>

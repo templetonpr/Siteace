@@ -1,34 +1,48 @@
 <template name="website_details"> <!-- details and comments about a particular site -->
   <div class="container">
-    <div class="row panel" id="panel{{_id}}">
-      <br>
-      <br>
-      {{> website_card}}
-      <br>
-      
-      <ul class="details-list">Tags: 
-        {{#each tags}}
-          <li>{{this}}</li>
-        {{/each}}
-      </ul>
-      
-      <ul class="details-list">
-        <li>
-          {{#if submittedByThisUser}}
-            <a href="#" class="js-delete btn btn-sm btn-danger">Delete</a>
-          {{/if}}
-        </li>
-        <li class="small">Submitted by: <strong>{{getUser}}</strong> Created: <strong>{{createdOn}}</strong></li>
-      </ul> 
-    </div>
-    
-    <div class="row panel comment-panel"> <!-- Comments -->
-        <div class="col-xs-8 col-xs-offset-2">
-          <div class="comment-section">
-            {{> commentsBox id=_id}}
+    <div class="row">
+      <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1">
+        <div class="panel" id="panel{{_id}}">
+          <div class="row">
+            {{> website_card}}
+            <br>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <ul class="details-list">Tags: 
+                {{#each tags}}
+                  <li>{{this}}</li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <ul class="details-list">
+                <li>
+                  {{#if submittedByThisUser}}
+                    <a href="#" class="js-delete btn btn-sm btn-danger">Delete</a>
+                  {{/if}}
+                </li>
+                <li class="small">Submitted by: <strong>{{getUser}}</strong> Created: <strong>{{createdOn}}</strong></li>
+              </ul>
+            </div>
           </div>
         </div>
+        
+        <div class="panel">
+          <div class="row"> <!-- Comments -->
+            <div class="col-xs-12">
+              <div class="comment-section">
+                {{> commentsBox id=_id}}
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
-      
+    </div>
   </div>
 </template>

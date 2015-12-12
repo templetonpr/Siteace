@@ -1,6 +1,6 @@
 /* CSS declarations go here */
 body {
-  background-color: #aaaaaa;
+  background-color: #555555;
 }
 
 .hidden_div{
@@ -14,6 +14,8 @@ body {
 .panel {
     background-color: #cccccc;
     padding: 10px;
+    box-shadow: 2px 2px 2px #000000;
+    border-radius: 0px;
 }
 
 .website-footer {
@@ -42,14 +44,6 @@ body {
   text-align: center;
 }
 
-.votebox {
-  padding: 10px;
-}
-
-.comment-panel {
-  margin: 30px;
-}
-
 .details-button {
   margin-left: 110px;
 }
@@ -65,4 +59,33 @@ body {
 
 .downvoted {
   background-color: #9494ff;
+}
+
+.modal {
+  background: rgba(000, 000, 000, 0.8);
+  min-height:1000000px;
+}
+
+nav {
+  box-shadow: 3px 0px 2px #000000;
+  border-radius: 0px;
+}
+
+.nav {
+  background-color: #333333;
+  box-shadow: 2px 2px 3px black;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.votebox {
+  margin-top: 20px;
+}
+
+.comments-box {
+  margin: auto;
+}
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: inherit;
 }
